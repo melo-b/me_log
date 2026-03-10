@@ -4,4 +4,5 @@ from . import views
 urlpatterns = [
     # Leave the path empty string '' so this acts as the homepage
     path('', views.blog_index, name='blog_index'),
+    path('post/<int:pk>/', views.post_detail, name='post_detail'),
 ]

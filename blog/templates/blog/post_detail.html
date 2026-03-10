@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ post.title }} - Me Log</title>
+</head>
+<body>
+    
+    <p><a href="{% url 'blog_index' %}">&larr; Back to Home</a></p>
+
+    <article>
+        <h1>{{ post.title }}</h1>
+        <p><small>Published on: {{ post.created_on|date:"F j, Y" }} | Category: {{ post.category.name }}</small></p>
+
+        {% if post.image %}
+            <img src="{{ post.image.url }}" alt="{{ post.title }}" style="max-width: 100%; height: auto; margin-bottom: 20px;">
+        {% endif %}
+
+        <div style="font-size: 18px; line-height: 1.6;">
+            <p>{{ post.content|linebreaksbr }}</p>
+        </div>
+    </article>
+
+</body>
+</html>
