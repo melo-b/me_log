@@ -21,5 +21,27 @@
         </div>
     </article>
 
+    <hr style="margin: 40px 0;">
+
+    <section>
+        <h2>Comments</h2>
+        
+        {% for comment in comments %}
+            <div style="background-color: #f9f9f9; padding: 15px; margin-bottom: 15px; border-radius: 5px;">
+                <strong>{{ comment.author }}</strong> <span style="color: #666; font-size: 0.9em;">- {{ comment.created_on|date:"F j, Y" }}</span>
+                <p style="margin-top: 5px;">{{ comment.body }}</p>
+            </div>
+        {% empty %}
+            <p>No comments yet. Be the first to share your thoughts!</p>
+        {% endfor %}
+
+        <h3>Leave a Comment</h3>
+        <form method="post" style="margin-top: 20px;">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" style="padding: 10px 15px; background-color: #333; color: white; border: none; border-radius: 5px; cursor: pointer;">Post Comment</button>
+        </form>
+    </section>
+
 </body>
 </html>
