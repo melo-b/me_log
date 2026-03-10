@@ -1,0 +1,7 @@
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    # Leave the path empty string '' so this acts as the homepage
+    path('', views.blog_index, name='blog_index'),
+]
