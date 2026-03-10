@@ -2,6 +2,10 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import Post, Comment
 from .forms import CommentForm
 
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from .serializers import PostSerializer
+
 # Create your views here.
 
 def blog_index(request):
@@ -39,3 +43,12 @@ def post_detail(request, pk):
         'form': form
         }
     return render(request, 'blog/post_detail.html', context)
+
+
+@api_view(['GET'])
+def api_post_list(request):
+    """This endpoint returns a list of all blog posts in JSON format."""
+    posts = Post.objects.all().order_by('-created_on')  # Fetch all posts, ordered by newest first
+    serializer = PostSerializer(posts, many=True)  # Pass the database data to the translator. 'many=True' teslls it there are multiple posts to serialize
+    return Response(serializer.data)  # Return the serialized data as a JSON response
+
