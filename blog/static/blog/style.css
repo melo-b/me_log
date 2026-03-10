@@ -1,0 +1,81 @@
+/* Base Page Styling */
+body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background-color: #fcf9f2; /* Soft, warm off-white */
+    color: #4a4a4a;
+    margin: 0;
+    padding: 40px 20px;
+    line-height: 1.6;
+}
+
+/* Center the main content */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Styling for Posts and Comments */
+article, .comment-section {
+    background-color: white;
+    padding: 40px;
+    border-radius: 24px; /* Soft rounded corners */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+    margin-bottom: 30px;
+}
+
+h1, h2, h3 {
+    color: #333333;
+    margin-top: 0;
+}
+
+a {
+    color: #f48c46;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Styling the Images */
+img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 12px;
+    margin-bottom: 20px;
+}
+
+/* Styling the Form and Button */
+input[type="text"], textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    box-sizing: border-box;
+    font-family: inherit;
+}
+
+button {
+    background-color: #f48c46; /* Friendly, warm orange */
+    color: white;
+    border: none;
+    border-radius: 25px; /* Pill-shaped button */
+    padding: 12px 28px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+button:hover {
+    background-color: #e07b39;
+}
+
+hr {
+    border: 0;
+    height: 1px;
+    background: #eaeaea;
+    margin: 40px 0;
+}

@@ -1,47 +1,49 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>{{ post.title }} - Me Log</title>
+    <link rel="stylesheet" href="{% static 'blog/style.css' %}">
 </head>
 <body>
-    
-    <p><a href="{% url 'blog_index' %}">&larr; Back to Home</a></p>
+    <div class="container">
+        <p><a href="{% url 'blog_index' %}">&larr; Back to Home</a></p>
 
-    <article>
-        <h1>{{ post.title }}</h1>
-        <p><small>Published on: {{ post.created_on|date:"F j, Y" }} | Category: {{ post.category.name }}</small></p>
+        <article>
+            <h1>{{ post.title }}</h1>
+            <p><small>Published on: {{ post.created_on|date:"F j, Y" }} | Category: {{ post.category.name }}</small></p>
 
-        {% if post.image %}
-            <img src="{{ post.image.url }}" alt="{{ post.title }}" style="max-width: 100%; height: auto; margin-bottom: 20px;">
-        {% endif %}
+            {% if post.image %}
+                <img src="{{ post.image.url }}" alt="{{ post.title }}">
+            {% endif %}
 
-        <div style="font-size: 18px; line-height: 1.6;">
-            <p>{{ post.content|linebreaksbr }}</p>
-        </div>
-    </article>
-
-    <hr style="margin: 40px 0;">
-
-    <section>
-        <h2>Comments</h2>
-        
-        {% for comment in comments %}
-            <div style="background-color: #f9f9f9; padding: 15px; margin-bottom: 15px; border-radius: 5px;">
-                <strong>{{ comment.author }}</strong> <span style="color: #666; font-size: 0.9em;">- {{ comment.created_on|date:"F j, Y" }}</span>
-                <p style="margin-top: 5px;">{{ comment.body }}</p>
+            <div style="font-size: 18px;">
+                <p>{{ post.content|linebreaksbr }}</p>
             </div>
-        {% empty %}
-            <p>No comments yet. Be the first to share your thoughts!</p>
-        {% endfor %}
+        </article>
 
-        <h3>Leave a Comment</h3>
-        <form method="post" style="margin-top: 20px;">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" style="padding: 10px 15px; background-color: #333; color: white; border: none; border-radius: 5px; cursor: pointer;">Post Comment</button>
-        </form>
-    </section>
+        <div class="comment-section">
+            <h2>Comments</h2>
+            
+            {% for comment in comments %}
+                <div style="margin-bottom: 20px;">
+                    <strong>{{ comment.author }}</strong> <span style="color: #999; font-size: 0.9em;">- {{ comment.created_on|date:"F j, Y" }}</span>
+                    <p style="margin-top: 5px;">{{ comment.body }}</p>
+                </div>
+            {% empty %}
+                <p>No comments yet. Be the first to share your thoughts!</p>
+            {% endfor %}
 
+            <hr>
+
+            <h3>Leave a Comment</h3>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Post Comment</button>
+            </form>
+        </div>
+    </div>
 </body>
 </html>

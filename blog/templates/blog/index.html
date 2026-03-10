@@ -1,26 +1,28 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Me Log</title>
+    <link rel="stylesheet" href="{% static 'blog/style.css' %}">
 </head>
 <body>
-    <h1>Welcome to My Blog</h1>
+    <div class="container">
+        <h1 style="text-align: center; margin-bottom: 40px;">Welcome to My Blog</h1>
 
-    {% for post in posts %}
-        <article style="border-bottom: 1px solid #ccc; margin-bottom: 20px; padding-bottom: 20px;">
-            <h2><a href="{% url 'post_detail' post.pk %}" style="text-decoration: none; color: black;">{{ post.title }}</a></h2>
-            <p><small>Published on: {{ post.created_on|date:"F j, Y" }}</small></p>
+        {% for post in posts %}
+            <article>
+                <h2><a href="{% url 'post_detail' post.pk %}">{{ post.title }}</a></h2>
+                <p><small>Published on: {{ post.created_on|date:"F j, Y" }}</small></p>
 
-            {% if post.image %}
-                <img src="{{ post.image.url }}" alt="{{ post.title }}" style="max-width: 500px; height: auto;">
-            {% endif %}
+                {% if post.image %}
+                    <img src="{{ post.image.url }}" alt="{{ post.title }}">
+                {% endif %}
 
-            <p>{{ post.content }}</p>
-        </article>
-    {% empty %}
-        <p>No posts yet! Go to the admin dashboard to add one.</p>
-    {% endfor %}
-
+                <p>{{ post.content|truncatewords:30 }}</p> </article>
+        {% empty %}
+            <p>No posts yet! Go to the admin dashboard to add one.</p>
+        {% endfor %}
+    </div>
 </body>
 </html>
