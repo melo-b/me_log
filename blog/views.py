@@ -6,6 +6,9 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .serializers import PostSerializer
 
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login
+
 # Create your views here.
 
 def blog_index(request):
@@ -31,6 +34,7 @@ def post_detail(request, pk):
         if form.is_valid():
             comment = form.save(commit=False)  # Create a Comment object but don't save to the database yet
             comment.post = post # Link the comment to the current post
+            comment.author = request.user.username # Set the author of the comment to the currently logged-in user's username
             comment.save() # Now save the comment to the database
             return redirect('post_detail', pk=post.pk) # Redirect to the same post detail page after saving the comment
         
@@ -52,3 +56,15 @@ def api_post_list(request):
     serializer = PostSerializer(posts, many=True)  # Pass the database data to the translator. 'many=True' teslls it there are multiple posts to serialize
     return Response(serializer.data)  # Return the serialized data as a JSON response
 
+
+def register(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save() # Save the new user to the database
+            login(request, user) # Automatically log them in right after signing up!
+            return redirect('blog_index') # Send them to the homepage
+    else:
+        form = UserCreationForm() # Show an empty registration form
+    
+    return render(request, 'registration/register.html', {'form': form})

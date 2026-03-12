@@ -1,0 +1,25 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign Up - Me Log</title>
+    <link rel="stylesheet" href="{% static 'blog/style.css' %}">
+</head>
+<body>
+    <div class="container">
+        <article style="max-width: 400px; margin: 40px auto; text-align: center;">
+            <h2>Create an Account</h2>
+
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" style="width: 100%; margin-top: 10px;">Sign Up</button>
+            </form>
+            
+            <p style="margin-top: 20px;">Already have an account? <a href="{% url 'login' %}">Log In</a></p>
+            <p><a href="{% url 'blog_index' %}">&larr; Back to Home</a></p>
+        </article>
+    </div>
+</body>
+</html>
