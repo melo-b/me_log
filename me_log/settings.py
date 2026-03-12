@@ -123,3 +123,7 @@ MEDIA_URL = 'media/'
 
 # Path where media files will be stored
 MEDIA_ROOT = BASE_DIR / 'media'
+
+# Redirect users to the homepage after they log in or log out
+LOGIN_REDIRECT_URL = 'blog_index'
+LOGOUT_REDIRECT_URL = 'blog_index'
