@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.core.exceptions import PermissionDenied
 from .models import Post, Comment
-from .forms import CommentForm
+from .forms import CommentForm, PostForm
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -68,3 +69,36 @@ def register(request):
         form = UserCreationForm() # Show an empty registration form
     
     return render(request, 'registration/register.html', {'form': form})
+
+
+def edit_post(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    
+    # SECURITY CHECK: Is the logged-in user the author?
+    if request.user != post.author:
+        raise PermissionDenied
+        
+    if request.method == 'POST':
+        # request.FILES is required whenever your form handles image uploads
+        form = PostForm(request.POST, request.FILES, instance=post)
+        if form.is_valid():
+            form.save()
+            return redirect('post_detail', pk=post.pk)
+    else:
+        # Pre-fill the form with the existing post data
+        form = PostForm(instance=post)
+        
+    return render(request, 'blog/post_form.html', {'form': form, 'post': post})
+
+def delete_post(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    
+    # SECURITY CHECK: Is the logged-in user the author?
+    if request.user != post.author:
+        raise PermissionDenied
+        
+    if request.method == 'POST':
+        post.delete()
+        return redirect('blog_index')
+        
+    return render(request, 'blog/post_confirm_delete.html', {'post': post})

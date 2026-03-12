@@ -10,4 +10,6 @@ urlpatterns = [
     path('api/posts/', views.api_post_list, name='api_post_list'),
     
     path('register/', views.register, name='register'),
+    path('post/<int:pk>/edit/', views.edit_post, name='edit_post'),
+    path('post/<int:pk>/delete/', views.delete_post, name='delete_post'),
 ]
