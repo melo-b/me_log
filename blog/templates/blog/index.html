@@ -8,12 +8,23 @@
 </head>
 <body>
     <div class="container">
+        <div style="text-align: right; margin-bottom: 20px;">
+            {% if user.is_authenticated %}
+                <span>Hello, {{ user.username }}!</span> | 
+                <form method="post" action="{% url 'logout' %}" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" style="background: none; color: #f48c46; border: none; padding: 0; font: inherit; cursor: pointer; text-decoration: underline;">Log Out</button>
+                </form>
+            {% else %}
+                <a href="{% url 'login' %}">Log In</a>
+            {% endif %}
+        </div>
         <h1 style="text-align: center; margin-bottom: 40px;">Welcome to My Blog</h1>
 
         {% for post in posts %}
             <article>
                 <h2><a href="{% url 'post_detail' post.pk %}">{{ post.title }}</a></h2>
-                <p><small>Published on: {{ post.created_on|date:"F j, Y" }}</small></p>
+                <p><small>By <strong>{{ post.author.username }}</strong> | Published on: {{ post.created_on|date:"F j, Y" }}</small></p>
 
                 {% if post.image %}
                     <img src="{{ post.image.url }}" alt="{{ post.title }}">
